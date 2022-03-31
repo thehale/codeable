@@ -1,0 +1,3 @@
+| DATE | GitHub Handle | Name | Summary of Contribution |
+|------|---------------|------|-------------------------|
+| 2022-03-31 | @jhale1805 | Joseph Hale | Formalized initial version of `grammar.md` |
