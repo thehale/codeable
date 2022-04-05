@@ -9,4 +9,4 @@ value equals addition of value1 with value2
 move-on
 answer equals value
 
-fyi greater 
+fyi greater : is-greater-than
