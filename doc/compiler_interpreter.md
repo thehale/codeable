@@ -26,3 +26,6 @@ Interpreter displays errors of each line one by one
 * Interpreted code runs slower
 
 # Discussion
+* With prolog as our interpreter, we can take our grammar / code form, line by line, and feed our parse tree responses back to our primary compiler.
+    * In order to do this, we must set a DCG parse tree predicate in prolog, as well as a intermediate compiler on our front side, which can be in any higher    level language.
+* The team has elected to use prolog for our interpreter, and this will take a tokenized input from our language, and return a parse tree to the compiler.
