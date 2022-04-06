@@ -4,6 +4,7 @@
     language=Prolog,
     breaklines=true
 }
+\usepackage{hyperref}
 
 \begin{document}
     {
@@ -14,7 +15,10 @@
         \vspace*{1em}
         \Large{\emph{A highly-readable programming language}}
         
-        \Large{\emph{designed for software newcomers}}
+        \Large{\emph{designed for software newcomers.}}
+        
+        \vspace*{1em}
+        \href{https://github.com/jhale1805/SER502-Spring2022-Team15}{github.com/jhale1805/SER502-Spring2022-Team15}
 
         \vspace*{5em}
         \Large{Created by}
@@ -51,24 +55,138 @@
         Arizona State University
 
     }
-    \newpage
-
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%% Grammar
+    \newpage
     \section{Grammar}
     \lstinputlisting{grammar.md}
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%% Implementation Tooling
+    \newpage
     \section{Implementation Tooling}
     
     \subsection{Tokenizer}
+
+    In our tokenizer, we will generate a tokenized string for each line
+    of Codeable code, and will do this by utilizing our Javascript
+    front end to pull each line as a new line of Codeable text. After
+    generating the tokenized text, we will send all lines to our Prolog
+    DCG rule interpreter for parsing and returning a tree for our
+    subtasks.
+
     \subsection{Parser}
+
+    For our parser, we will be utilizing Prolog and tokenized text in
+    order to generate parse trees. As such, Prolog will be used as our
+    interpreter, and this will be done with a set of Definite Clause
+    Grammar rules and a Recursive Descent Parser. In order to make this
+    as easy as possible, we are going to utilize Prolog rules to
+    extract the grammar rules we have laid out, and provide quick and
+    accurate trees that represent the functions provided by a user of
+    Codeable.
+
     \subsection{Evaluator}
+
+    After receiving a parse tree from Prolog, our system shall evaluate
+    the parse tree and perform the calculations on those interactions
+    based on what the user has provided in the Codeable language, or a
+    false response if the user form is not valid or cannot be
+    evaluated. In this approach, we can simplify the evaluation process
+    as we already have the rules in Prolog, and will reduce the
+    complexity of parsing a parse tree with limited context of the
+    grammar rules.
+
+    \subsection{Runtime}
+
+    Writing programs in Codeable and running them can occur anywhere
+    that a Prolog installation is available. In line with our hopes to
+    make this language as easy to use as possible for software
+    newcomers, we will create a website-based playground for writing
+    Codeable programs.
+    
+    To accomplish this, we will leverage the open-source JavaScript
+    library \href{https://github.com/tau-Prolog/tau-prolog}{Tau-Prolog}
+    which enables parsing and evaluating Prolog code in the browser. We
+    will have a text box for writing the Codeable instructions and an
+    output window. Behind the scenes, the Prolog rules that constitute
+    the Tokenizer, Parser, and Evaluator described previously will be
+    fed into Tau-Prolog to process the user's Codeable instructions and
+    return the output to be rendered in the webpage.
+
+    \subsection{Data Structures}
+    
+    \subsubsection{Array}
+    
+    One of the data structures that will be used by the
+    parser/interpreter will be arrays. Arrays will be useful to group a
+    fixed amount of data and run operations on that data. Arrays will
+    follow common structure with indices starting at 0, and supporting
+    only one data type at a time.
+
+    \subsubsection{Lists}
+    
+    Another data structures that will be used by the parser/interpreter
+    will be lists. Lists will be useful for ordering dynamic data. In
+    other words, if the data does not have a fixed amount, lists will
+    provide an easy way to add and remove data on the fly. The list
+    will follow a common structure with functionality such as GET,
+    REMOVE, CONTAINS, REMOVE\_BY\_VALUE, and ADD.
+
+    \subsubsection{Trees}
+    
+    The last data structure that will be used by the parser/interpreter
+    will be trees. Trees will be useful to group data that have
+    hierarchical relationships. With trees we can also run many
+    traversals such as BFS and DFS to search for data that we might
+    want. Trees will follow a binary pattern where each parent node can
+    have 0,1 or 2 child nodes.
+
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%% Contribution Plan
+    \newpage
     \section{Contribution Plan}
-    
 
+    \begin{table}[h]
+        \begin{tabular}{| l | l |}
+            \hline
+            Task & Assigned To \\
+            \hline
+            Encode Boolean values in runtime environment & Sai V \\
+            Encode numeric type in runtime environment & Sai V \\
+            Encode string support in runtime environment & Rithvik \\
+            Encode assignment support in runtime environment & Sai V \\
+            Encode ternary operator in runtime environment & Jacob J \\
+            Encode if-then-else construct in runtime environment & Jacob J \\
+            Encode for loop in runtime environment & Jacob H \\
+            Encode while loop in runtime environment & Jacob H \\
+            Encode syntactic sugar representation of for loop (e.g. for i in range(2, 5)) & Jacob H \\
+            Encode print construct & Rithvik \\
+            Set up runtime environment & Joseph \\
+            Encode data structures in runtime environment (if time allows) & Jacob J \\
+            Set up interpreter prolog rules to feed into Tau prolog & Jacob J \\
+            Set up compiler/interpreter environment with Tau & Joseph \\
+            Create PDF of language presentation & Joseph \\
+            Create and upload YouTube video of language presentation. & Rithvik \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%% Example Programs
+    \newpage
+    \section{Example Programs}
+    
+    \subsection{Quadratic Formula}
+    \lstinputlisting{../data/quadratic_formula.md}
+    
+    \subsection{Factorial}
+    \lstinputlisting{../data/factorial.md}
+    
+    \subsection{Towers of Hanoi}
+    \lstinputlisting{../data/tower-of-hanoi.md}
+    
+    
 \end{document}
