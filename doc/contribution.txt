@@ -6,3 +6,4 @@
 | 2022-04-06 | @rarun321 | Rithvik Arun | Documented initial research on data structures |
 | 2022-04-06 | @jhale1805 | Joseph Hale | Created initial PDF for Milestone 1 Deliverable |
 | 2022-04-06 | @jakehresh | Jacob Hreshchyshyn | Created project contribution plan |
+| 2022-04-06 | @jgjanes | Jacob Janes | Finalized interpreter discussion for milestone 1 |
