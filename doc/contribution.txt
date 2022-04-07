@@ -2,9 +2,10 @@
 |------|---------------|------|-------------------------|
 | 2022-03-31 | @jhale1805 | Joseph Hale | Formalized initial version of `grammar.md` |
 | 2022-03-31 | @jgjanes | Jacob Janes | Documented initial research on compilation vs. interpretation |
-| 2022-04-04 | @07sainishanth | Sai Vaka | Created initial versions of the five sample programs |
+| 2022-04-04 | @07sainishanth | Sai Nishanth Vaka | Created initial versions of the five sample programs |
 | 2022-04-06 | @rarun321 | Rithvik Arun | Documented initial research on data structures |
 | 2022-04-06 | @jhale1805 | Joseph Hale | Created initial PDF for Milestone 1 Deliverable |
 | 2022-04-06 | @jakehresh | Jacob Hreshchyshyn | Created project contribution plan |
 | 2022-04-06 | @jgjanes | Jacob Janes | Finalized interpreter discussion for milestone 1 |
+| 2022-04-06 | @07sainishanth | Sai Nishanth Vaka | Verified grammar added final touches |
 | 2022-04-06 | @everyone | Everyone | Completed Milestone 1 PDF Draft |
