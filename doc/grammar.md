@@ -1,6 +1,8 @@
 // Initial Definitions
 `identifier` := \w+(-\w+)*
 `identifier_answer` := answer
+`identifier_answer` := no-answer
+
 
 `block` := `assignment` \n
 `block` := `assignment` \n `block`
@@ -67,3 +69,9 @@
 
 // Other Features: Comments
 `comment` := fyi `string` \n
+
+// Comparison Operators
+`greater_than` := `expression` is-greater-than `expression` 
+`less_than` := `expression` is-less-than `expression` 
+`equal-to` := `expression` is-equal-to `expression` 
+
