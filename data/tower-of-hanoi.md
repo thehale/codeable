@@ -6,3 +6,6 @@ show-value-of "Move disk " with disks with " from rod " with source with " with 
 tower-of-hanoi of disks1 with medium with target with source
 move-on
 answer equals no-answer
+
+fyi example of recursion
+fyi example of if blocks

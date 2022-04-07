@@ -9,4 +9,4 @@ temp equals substraction of temp3 with 1
 repeat
 answer equals value
 
-fyi greater : is-greater-than
+fyi fyi example of while loop block
