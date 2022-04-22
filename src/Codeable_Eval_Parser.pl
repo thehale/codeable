@@ -9,22 +9,22 @@ factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
 term(term_factor(T)) --> factor(T).
-term(term_times(T1, T2)) --> ["multiplication of"], factor(T1), ["with"],  term(T2).
-term(term_divide(T1, T2)) -->  ["division of"], factor(T1), ["with"], term(T2).
+term(term_times(T1, T2)) --> [multiplication of], factor(T1), [with],  term(T2).
+term(term_divide(T1, T2)) -->  [division of], factor(T1), [with], term(T2).
 
 expr(expr_term(E)) --> term(E).
-expr(expr_plus(E1, E2)) --> ["addition of"], term(E1), ["with"],  expr(E2).
-expr(expr_minus(E1, E2)) --> ["subtraction of"], term(E1), ["with"],  expr(E2).
+expr(expr_plus(E1, E2)) --> [addition of], term(E1), [with],  expr(E2).
+expr(expr_minus(E1, E2)) --> [subtraction of], term(E1), [with],  expr(E2).
 expr(expr_assign(A)) --> assignment(A).
 
 boolean(true) --> [true].
 boolean(false) --> [false].
 boolean(not(B)) --> [not], boolean(B).
 boolean(equals(E1, E2)) --> expr(E1), [=], expr(E2).
-boolean(is_greater_than(E1, E2)) --> expr(E1), ["is-greater-than"], expr(E2).
-boolean(is_less_than(E1, E2)) --> expr(E1), ["is-less-than"], expr(E2).
+boolean(is_greater_than(E1, E2)) --> expr(E1), [is-greater-than], expr(E2).
+boolean(is_less_than(E1, E2)) --> expr(E1), [is-less-than], expr(E2).
 
-assignment(assign(I, E)) --> identifier(I), ["equals"], expr(E).
+assignment(assign(I, E)) --> identifier(I), [equals], expr(E).
 ternary(if(B, T, F)) --> [if], boolean(B), [then], command(T), [else], command(F), [endif].
 loop(while(B, C)) --> [while], boolean(B), [do], command(C), [endwhile].
 
