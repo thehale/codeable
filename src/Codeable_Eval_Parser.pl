@@ -27,6 +27,7 @@ boolean(is_less_than(E1, E2)) --> expr(E1), [is-less-than], expr(E2).
 assignment(assign(I, E)) --> identifier(I), [equals], expr(E).
 ternary(if(B, T, F)) --> [if], boolean(B), [then], command(T), [else], command(F), [endif].
 loop(while(B, C)) --> [while], boolean(B), [do], command(C), [endwhile].
+loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), [do], command(C), [endfor].
 
 command(C) --> assignment(C).
 command(C) --> ternary(C).
