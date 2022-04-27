@@ -1,4 +1,8 @@
 % :- use_rendering(svgtree).  % Only works in SWISH.swi-prolog.org
+/**
+ * codeable_version(-Major,-Minor,-Patch) is det.
+ */
+codeable_version(0,0,1).
 
 %%%%% Token Parser %%%%%%
 digit(0) --> [0].
