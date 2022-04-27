@@ -3,31 +3,47 @@
 
 %%%%% Token Parser %%%%%%
 
+% Parser - Numercis
+number(t_number(N)) --> [N], {number(N)}.
+
 % v3 (Heavily inspired by M2.1 - slide 59)
-factor(factor_digit(F)) --> digit(F).
+chars([X|Y]) --> char(X), chars(Y).
+chars([]) --> [].
+
+char(X) --> [X], { is_char(X) }.
+
+string(X) --> ['\"'], char(X), ['\"'].
+string(X) --> ['\"'], char(X), [' '], char(X), ['\"'].
+string(X) --> ['\"'], char(X), [' '], string(X), ['\"'].
+
+factor(factor_number(F)) --> number(F).
 factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
 term(term_factor(T)) --> factor(T).
-term(term_times(T1, T2)) --> [multiplication of], factor(T1), [with],  term(T2).
-term(term_divide(T1, T2)) -->  [division of], factor(T1), [with], term(T2).
+term(term_times(T1, T2)) --> [multiplication],[of], factor(T1), [with],  term(T2).
+term(term_divide(T1, T2)) -->  [division],[of], factor(T1), [with], term(T2).
 
 expr(expr_term(E)) --> term(E).
-expr(expr_plus(E1, E2)) --> [addition of], term(E1), [with],  expr(E2).
-expr(expr_minus(E1, E2)) --> [subtraction of], term(E1), [with],  expr(E2).
+expr(expr_plus(E1, E2)) --> [addition], [of], term(E1), [with],  expr(E2).
+expr(expr_minus(E1, E2)) --> [subtraction], [of], term(E1), [with],  expr(E2).
 expr(expr_assign(A)) --> assignment(A).
 
 boolean(true) --> [true].
 boolean(false) --> [false].
 boolean(not(B)) --> [not], boolean(B).
-boolean(equals(E1, E2)) --> expr(E1), [=], expr(E2).
+boolean(equals(E1, E2)) --> expr(E1), [is-equal-to], expr(E2).
 boolean(is_greater_than(E1, E2)) --> expr(E1), [is-greater-than], expr(E2).
 boolean(is_less_than(E1, E2)) --> expr(E1), [is-less-than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [equals], expr(E).
 ternary(if(B, T, F)) --> [if], boolean(B), [then], command(T), [else], command(F), [endif].
-loop(while(B, C)) --> [while], boolean(B), [do], command(C), [endwhile].
-loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), [do], command(C), [endfor].
+loop(while(B, C)) --> [while], boolean(B), command(C), [endwathile].
+loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
+
+printC(print_char(C)) --> [printC], char(C).
+printC(print_string(S)) --> [printC], string(S).
+printC(print_digit(D)) --> [printC], digit(D).
 
 command(C) --> assignment(C).
 command(C) --> ternary(C).
@@ -50,6 +66,14 @@ block(blk(D, C)) --> [begin], declaration(D), [;], command(C), [end].
 
 program(prog(P)) --> block(P), ['.'].
 
+% Parser - Functions
+
+functions(t_functions(Id, Args,Y, Val)) --> identifier(Id), decl_a1(Args), [needs], comm(Y), [answer], [equals], result(Val).
+
+% Functions eval
+
+function_eval(Id, Args, [(Id,t_codeable_functions(Pt))|_],Value).
+function_eval(Id, Args, [_|T],Value) :- function_eval(Id, T, Value).
 
 /**
  * eval(+Node, +EnvIn, -EnvOut, -ValueOut)
@@ -202,7 +226,6 @@ program_eval(P, X, Y, Z) :-
     eval(P, EnvY, EnvOut, _ValueOut),
     lookup(z, EnvOut, Z).
 
-
 digit(0) --> [0].
 digit(1) --> [1].
 digit(2) --> [2].
@@ -218,11 +241,6 @@ identifier(WORD) --> { var(WORD), ! },
    chars(CHARS), { atom_codes(WORD, CHARS) }.
 identifier(WORD) --> { nonvar(WORD) },
    { atom_codes(WORD, CHARS) }, chars(CHARS).
-
-chars([X|Y]) --> char(X), chars(Y).
-chars([]) --> [].
-
-char(X) --> [X], { is_char(X) }.
 
 is_char(X) :- X >= 0'a, X =< 0'z, !.
 is_char(X) :- X >= 0'A, X =< 0'Z, !.
