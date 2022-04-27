@@ -1,0 +1,37 @@
+html {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    height: 90vh;
+    width: 80vw;
+    padding: 5vh 10vw;
+    margin: 0;
+}
+
+label {
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+textarea {
+    text-align: left;
+    width: 100%;
+    height: 90%;
+}
+
+#editor {
+    height: 80%;
+}
+
+#output {
+    height: 15%;
+}
+
+#run {
+    float: right;
+    min-width: 100px;
+    min-height: 30px;
+    border-radius: 15px;
+    background-color: greenyellow;
+}
