@@ -1,6 +1,12 @@
 let INTERPRETER_CODE_PATH = "jhaleAssign3.pl";
 let intermediateCode = "";
 
+function populateCodeArea() {
+  var sampleProgram = "begin\n\tvar z ; \n\tconst x = 3 ;\n\tz := x\nend .";
+  var codeArea = document.getElementById("code");
+  codeArea.value = sampleProgram;
+}
+
 function hijackConsoleLog() {
   let consoleLog = console.log;
   console.log = (message) => {
@@ -55,7 +61,7 @@ function patchIntermediateCode(session) {
 function registerRunListener() {
   let runButton = document.getElementById("run");
   runButton.addEventListener("click", (el, ev) => {
-    let session = pl.create()
+    let session = pl.create();
     session.consult(intermediateCode, {
       success: () => {
         console.log("[INFO] Loaded interpreter source code");
@@ -63,32 +69,39 @@ function registerRunListener() {
       },
       error: (err) => {
         console.log("[ERROR] Failed to load interpreter source code");
-        console.log(err)
+        console.log(err);
       },
-    })
+    });
   });
 }
 
 // Create the query (parse the query).
 function loadQuery(session) {
-  // , write(P), program_eval(P, 2, 3, Z).
-  session.query("program(P, [begin, var, z, ; , var, x, ;, z, :=, x, end, .], []), write(P), program_eval(P, 2, 3, Z).", {
-    success: function (goal) {
-      /* Goal parsed correctly */
-      console.log("Successfully parsed query!");
-      console.log(goal);
-      findAnswer(session);
-    },
-    error: function (err) {
-      /* Error parsing goal */
-    },
-  });
+  var programText = document.getElementById("code").value;
+  var tokens = tokenizer(programText);
+  var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
+  session.query(
+    `program(P, ${formattedTokens}, []), write(P), program_eval(P, 2, 3, Z).`,
+    {
+      success: function (goal) {
+        /* Goal parsed correctly */
+        console.log("Successfully parsed query!");
+        console.log(goal);
+        findAnswer(session);
+      },
+      error: function (err) {
+        console.log("[ERROR] Failed to parse query");
+        console.log(err);
+      },
+    }
+  );
 }
 
 function findAnswer(session) {
   // Execute the query (execute the goal).
   session.answer({
     success: function (answer) {
+      document.getElementById("results").value = session.format_answer(answer);
       console.log(session.format_answer(answer)); // {X/apple}
     },
     error: function (err) {
@@ -107,11 +120,12 @@ function findAnswer(session) {
 }
 
 function tokenizer(fulltext) {
-  var tokens = fulltext.split(" ");
+  var tokens = fulltext.split(/\s/).filter((token) => token.length > 0);
   return tokens;
 }
 
 function main() {
+  populateCodeArea();
   hijackConsoleLog();
   prepareInterpreter();
   registerRunListener();
