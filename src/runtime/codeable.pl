@@ -12,9 +12,9 @@ numeric(N) --> [N], {number(N)}.
 % v3 (Heavily inspired by M2.1 - slide 59)
 char(C) --> [C], { char_type(C, alpha) }.
 
-identifier(id(I)) --> [I], {atom(I)}.
+identifier(I) --> [I], {atom(I)}.
 
-word([W]) --> identifier(id(W)).
+word([W]) --> identifier(W).
 word([W1 | W2]) --> [W1], word(W2), {atom(W1)}.
 strings(S) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
 
@@ -25,11 +25,11 @@ factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
 sub_term(term_factor(T)) --> factor(T).
-sub_term(term_exponent(F1, F2)) --> factor(F1), [raised-to], factor(F2).
+sub_term(term_exponent(F1, F2)) --> factor(F1), [raised_to], factor(F2).
 
 term(T) --> sub_term(T).
 term(term_times(T1, T2)) --> factor(T1), [times],  term(T2).
-term(term_divide(T1, T2)) -->  factor(T1), [divided-by], term(T2).
+term(term_divide(T1, T2)) -->  factor(T1), [divided_by], term(T2).
 
 expr(expr_term(E)) --> term(E).
 expr(expr_plus(E1, E2)) --> term(E1), [plus],  expr(E2).
@@ -40,8 +40,8 @@ boolean(true) --> [true].
 boolean(false) --> [false].
 boolean(not(B)) --> [not], boolean(B).
 boolean(equals(E1, E2)) --> expr(E1), [equals], expr(E2).
-boolean(is_greater_than(E1, E2)) --> expr(E1), [is-greater-than], expr(E2).
-boolean(is_less_than(E1, E2)) --> expr(E1), [is-less-than], expr(E2).
+boolean(is_greater_than(E1, E2)) --> expr(E1), [is_greater_than], expr(E2).
+boolean(is_less_than(E1, E2)) --> expr(E1), [is_less_than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
 % ternary(t_ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
@@ -52,16 +52,16 @@ show(show_string(S)) --> [show], strings(S).
 show(show_numeric(D)) --> [show], numeric(D).
 show(show_identifier(I)) --> [show], identifier(I).
 
+command(cmd(C1, C2)) --> comment(C1), command(C2).
+command(cmd(C1, C2)) --> assignment(C1), command(C2).
+% command(cmd(C1, C2)) --> ternary(C1), command(C2).
+command(cmd(C1, C2)) --> loop(C1), command(C2).
+command(cmd(C1, C2)) --> show(C1), command(C2).
+command(C) --> comment(C).
 command(C) --> assignment(C).
 % command(C) --> ternary(C).
 command(C) --> loop(C).
 command(C) --> show(C).
-command(C) --> comment(C).
-command(cmd(C1, C2)) --> assignment(C1), [;], command(C2).
-% command(cmd(C1, C2)) --> ternary(C1), [;], command(C2).
-command(cmd(C1, C2)) --> loop(C1), [;], command(C2).
-command(cmd(C1, C2)) --> show(C1), [;], command(C2).
-command(cmd(C1, C2)) --> comment(C1), [;], command(C2).
 
 program(prog(P)) --> command(P).
 
@@ -88,7 +88,7 @@ program(prog(P)) --> command(P).
 eval(prog(P), EnvIn, EnvOut, ValueOut) :-
     eval(P, EnvIn, EnvOut, ValueOut).
 
-eval(fyi(S), EnvIn, EnvIn, _ValueOut).
+eval(fyi(_S), EnvIn, EnvIn, _ValueOut).
 
 eval(cmd(C1, C2), EnvIn, EnvOut, ValueOut) :-
     eval(C1, EnvIn, EnvTemp, _ValueOut),
@@ -125,9 +125,9 @@ eval(expr_term(T), EnvIn, EnvOut, ValueOut) :-
 eval(expr_assign(A), EnvIn, EnvOut, ValueOut) :-
     eval(A, EnvIn, EnvOut, ValueOut).
 
-eval(term_exponent(Factor, Factor), EnvIn, Env2Out, ValueOut) :-
-    eval(Factor, EnvIn, Env1Out, Val1Out),
-    eval(Factor, Env1Out, Env2Out, Val2Out),
+eval(term_exponent(Factor1, Factor2), EnvIn, Env2Out, ValueOut) :-
+    eval(Factor1, EnvIn, Env1Out, Val1Out),
+    eval(Factor2, Env1Out, Env2Out, Val2Out),
     ValueOut is Val1Out ** Val2Out.
 eval(term_times(Factor, Term), EnvIn, Env2Out, ValueOut) :-
     eval(Factor, EnvIn, Env1Out, Val1Out),
@@ -140,7 +140,7 @@ eval(term_divide(Factor, Term), EnvIn, Env2Out, ValueOut) :-
 eval(term_factor(F), EnvIn, EnvOut, ValueOut) :-
     eval(F, EnvIn, EnvOut, ValueOut).
 
-eval(factor_digit(D), EnvIn, EnvIn, D).
+eval(factor_numeric(D), EnvIn, EnvIn, D).
 eval(factor_identifier(I), EnvIn, EnvIn, Value) :-
     lookup(I, EnvIn, Value).
 eval(factor_expression(E), EnvIn, EnvOut, Value) :-
@@ -227,16 +227,16 @@ program_eval(P, X, Y, Z) :-
     eval(P, EnvY, EnvOut, _ValueOut),
     lookup(z, EnvOut, Z).
 
-digit(0) --> [0].
-digit(1) --> [1].
-digit(2) --> [2].
-digit(3) --> [3].
-digit(4) --> [4].
-digit(5) --> [5].
-digit(6) --> [6].
-digit(7) --> [7].
-digit(8) --> [8].
-digit(9) --> [9].
+% digit(0) --> [0].
+% digit(1) --> [1].
+% digit(2) --> [2].
+% digit(3) --> [3].
+% digit(4) --> [4].
+% digit(5) --> [5].
+% digit(6) --> [6].
+% digit(7) --> [7].
+% digit(8) --> [8].
+% digit(9) --> [9].
 
 % identifier(WORD) --> { var(WORD), ! },
 %     chars(CHARS), { atom_codes(WORD, CHARS) }.

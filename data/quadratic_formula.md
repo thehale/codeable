@@ -3,14 +3,14 @@ a stores 1
 b stores -2
 c stores 1
 
-b-squared stores b times b
-four-a stores 4 times a
-four-a-c stores four-a times c
-discriminant stores b-squared minus four-a-c
-sqrt-discriminant stores discriminant raised-to 0.5
-negative-b stores 0 minus b
-numerator stores negative-b plus sqrt-discriminant
+b_squared stores b times b
+four_a stores 4 times a
+four_a_c stores four_a times c
+discriminant stores b_squared minus four_a_c
+sqrt_discriminant stores discriminant raised_to 0.5
+negative_b stores 0 minus b
+numerator stores negative_b plus sqrt_discriminant
 denominator stores 2 times a
-root stores numerator divided-by denominator
+root stores numerator divided_by denominator
 
 show root
