@@ -2,7 +2,7 @@ let INTERPRETER_CODE_PATH = "jhaleAssign3.pl";
 let intermediateCode = "";
 
 function populateCodeArea() {
-  var sampleProgram = "begin\n\tvar z ; \n\tconst x = 3 ;\n\tz := x\nend .";
+  var sampleProgram = "show 5";
   var codeArea = document.getElementById("code");
   codeArea.value = sampleProgram;
 }
@@ -13,6 +13,11 @@ function hijackConsoleLog() {
     if (message.toString().indexOf("codeable_version") > 0) {
       consoleLog("[DEBUG] Capturing intermediate code");
       intermediateCode = message;
+    }
+    if (message.toString().indexOf("output") == 1) {
+      consoleLog("[DEBUG] Capturing console output");
+      let msg = message.toString().slice("[output,".length, -1);
+      document.getElementById("results").value = msg;
     }
     consoleLog(message);
   };

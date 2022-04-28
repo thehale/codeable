@@ -35,8 +35,8 @@
 `string` := `identifier` `string`
 
 // Requirement 2
-`assignment` := `identifier` equals `expression`
-`assignment_answer` := `identifier_answer` equals `expression`
+`assignment` := `identifier` stores `expression`
+`assignment_answer` := `identifier_answer` stores `expression`
 
 // Requirement 3a
 `ternary` := `expression` if `expression_boolean` otherwise `expression`
@@ -56,7 +56,7 @@
 // TODO - I'm thinking that "range(2,5)" could be a function that returns an iterable collection. That's how Python does it...
 
 // Requirement 5
-`print_statement` := show-value-of `identifier`
+`print_statement` := show `identifier`
 
 // Other Features: Functions
 `argument` := `identifier`
