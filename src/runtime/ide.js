@@ -1,8 +1,8 @@
-let INTERPRETER_CODE_PATH = "jhaleAssign3.pl";
+let INTERPRETER_CODE_PATH = "codeable.pl";
 let intermediateCode = "";
 
 function populateCodeArea() {
-  var sampleProgram = "show 5";
+  var sampleProgram = "show 25";
   var codeArea = document.getElementById("code");
   codeArea.value = sampleProgram;
 }
@@ -51,7 +51,8 @@ function patchIntermediateCode(session) {
     success: (answer) => {
       var patchedCode = intermediateCode
         .replace("[(|", "['('|")
-        .replace("[)|", "[')'|");
+        .replace("[)|", "[')'|")
+        .replace(", ,", ",' ',");
       console.log(patchedCode);
     },
     error: (err) => {
@@ -107,7 +108,7 @@ function findAnswer(session) {
   session.answer({
     success: function (answer) {
       document.getElementById("results").value = session.format_answer(answer);
-      console.log(session.format_answer(answer)); // {X/apple}
+      console.log(answer); // {X/apple}
     },
     error: function (err) {
       /* Uncaught error */

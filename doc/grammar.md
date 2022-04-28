@@ -31,8 +31,9 @@
 `expression` := `expression` divided-by `expression` 
 
 // Requirement 1c
-`string` := `identifier`
-`string` := `identifier` `string`
+`word` := `identifier`
+`word` := `identifier` `word`
+`string` := < `word` >
 
 // Requirement 2
 `assignment` := `identifier` stores `expression`

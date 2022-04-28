@@ -7,20 +7,20 @@ codeable_version(0,0,1).
 
 %%%%% Token Parser %%%%%%
 % Parser - Numercis
-number(t_number(N)) --> [N], {number(N)}.
+numeric(N) --> [N], {number(N)}.
 
 % v3 (Heavily inspired by M2.1 - slide 59)
 % chars([X|Y]) --> char(X), chars(Y).
 % chars([]) --> [].
 
-% char(X) --> [X], { is_char(X) }.
+char(C) --> [C], { char_type(C, alpha) }.
 
-% string(X) --> ['\"'], char(X), ['\"'].
-% string(X) --> ['\"'], char(X), [' '], char(X), ['\"'].
-% string(X) --> ['\"'], char(X), [' '], string(X), ['\"'].
+word([A]) --> [A], {atom(A)}.
+word([A1 | A2]) --> [A1], word(A2), {atom(A1)}.
+strings(S) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
 identifier(id(A)) --> [a].
 
-factor(factor_number(F)) --> number(F).
+factor(factor_numeric(F)) --> numeric(F).
 factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
@@ -45,9 +45,8 @@ ternary(t_ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
 loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
 
-% show(show_char(C)) --> [show], char(C).
-% show(show_string(S)) --> [show], string(S).
-show(show_digit(D)) --> [show], digit(D).
+show(show_string(S)) --> [show], strings(S).
+show(show_numeric(D)) --> [show], numeric(D).
 show(show_identifier(I)) --> [show], identifier(I).
 
 command(C) --> assignment(C).
@@ -58,7 +57,6 @@ command(cmd(C1, C2)) --> assignment(C1), [;], command(C2).
 command(cmd(C1, C2)) --> ternary(C1), [;], command(C2).
 command(cmd(C1, C2)) --> loop(C1), [;], command(C2).
 command(cmd(C1, C2)) --> show(C1), [;], command(C2).
-
 
 program(prog(P)) --> command(P).
 
@@ -152,7 +150,7 @@ eval(equals(E1, E2), EnvIn, EnvOut, false) :-
 
 eval(show_char(C), EnvIn, EnvIn, _ValueOut) :-write([output, C]).
 eval(show_string(S), EnvIn, EnvIn, _ValueOut) :- write([output, S]).
-eval(show_digit(D), EnvIn, EnvIn, _ValueOut) :- write([output, D]).
+eval(show_numeric(D), EnvIn, EnvIn, _ValueOut) :- write([output, D]).
 eval(show_identifier(I), EnvIn, EnvIn, _ValueOut) :- 
     lookup(I, EnvIn, Value),
     write([output, Value]).
@@ -229,9 +227,9 @@ digit(8) --> [8].
 digit(9) --> [9].
 
 % identifier(WORD) --> { var(WORD), ! },
-%    chars(CHARS), { atom_codes(WORD, CHARS) }.
+%     chars(CHARS), { atom_codes(WORD, CHARS) }.
 % identifier(WORD) --> { nonvar(WORD) },
-%   { atom_codes(WORD, CHARS) }, chars(CHARS).
+%    { atom_codes(WORD, CHARS) }, chars(CHARS).
 
 % is_char(X) :- X >= 0'a, X =< 0'z, !.
 % is_char(X) :- X >= 0'A, X =< 0'Z, !.
