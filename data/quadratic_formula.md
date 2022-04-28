@@ -1,10 +1,16 @@
-quadratic-formula needs a with b with c
-b-squared equals square of b
-four-a equals multiplication of 4 with a
-four-a-c equals multiplication of four-a with c
-discriminant equals subtraction of b-squared with four-a-c
-sqrt-discriminant equals square-root of discriminant
-negative-b equals subtraction of 0 with b
-numerator equals addition of negative-b with sqrt-discriminant
-denominator equals multiplication of 2 with a
-answer equals division of numerator with denominator
+fyi < quadratic formula >
+a stores 1
+b stores -2
+c stores 1
+
+b-squared stores b times b
+four-a stores 4 times a
+four-a-c stores four-a times c
+discriminant stores b-squared minus four-a-c
+sqrt-discriminant stores discriminant raised-to 0.5
+negative-b stores 0 minus b
+numerator stores negative-b plus sqrt-discriminant
+denominator stores 2 times a
+root stores numerator divided-by denominator
+
+show root

@@ -2,12 +2,24 @@
 :- include("codeable.pl").
 
 
-test('`show 25` parses correctly') :-
-    program(P, [show, 25], []),
-    P = prog(show_numeric(25)).
+test("show numeric parses correctly") :-
+    program(ParseTree, [show, 25], []),
+    ParseTree = prog(show_numeric(25)).
 
-test('`show < hello world >` parses correctly') :-
-    program(P, [show, <, hello, world, >], []),
-    P = prog(show_string('hello world')).
+test("show string parses correctly") :-
+    program(ParseTree, [show, <, hello, world, >], []),
+    ParseTree = prog(show_string('hello world')).
+
+test("assignment parses correctly") :-
+    assignment(ParseTree, [a, stores, -2], []),
+    ParseTree = assign(id(a), expr_term(term_factor(factor_numeric(-2)))).
+
+test("comments parse correctly") :-
+    comment(ParseTree, [fyi, <, this, is, a, comment, >], []),
+    ParseTree = fyi('this is a comment').
+
+test("exponentiation parses correctly") :-
+    program(ParseTree, [a, stores, 2, raised-to, 3], []),
+    ParseTree = prog(assign(id(a), expr_term(term_exponent(factor_numeric(2), factor_numeric(3))))).
 
 :- end_tests(codeable).

@@ -10,21 +10,24 @@ codeable_version(0,0,1).
 numeric(N) --> [N], {number(N)}.
 
 % v3 (Heavily inspired by M2.1 - slide 59)
-% chars([X|Y]) --> char(X), chars(Y).
-% chars([]) --> [].
-
 char(C) --> [C], { char_type(C, alpha) }.
 
-word([A]) --> [A], {atom(A)}.
-word([A1 | A2]) --> [A1], word(A2), {atom(A1)}.
+identifier(id(I)) --> [I], {atom(I)}.
+
+word([W]) --> identifier(id(W)).
+word([W1 | W2]) --> [W1], word(W2), {atom(W1)}.
 strings(S) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
-identifier(id(A)) --> [a].
+
+comment(fyi(S)) --> [fyi], strings(S).
 
 factor(factor_numeric(F)) --> numeric(F).
 factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
-term(term_factor(T)) --> factor(T).
+sub_term(term_factor(T)) --> factor(T).
+sub_term(term_exponent(F1, F2)) --> factor(F1), [raised-to], factor(F2).
+
+term(T) --> sub_term(T).
 term(term_times(T1, T2)) --> factor(T1), [times],  term(T2).
 term(term_divide(T1, T2)) -->  factor(T1), [divided-by], term(T2).
 
@@ -41,7 +44,7 @@ boolean(is_greater_than(E1, E2)) --> expr(E1), [is-greater-than], expr(E2).
 boolean(is_less_than(E1, E2)) --> expr(E1), [is-less-than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
-ternary(t_ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
+% ternary(t_ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
 loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
 
@@ -50,13 +53,15 @@ show(show_numeric(D)) --> [show], numeric(D).
 show(show_identifier(I)) --> [show], identifier(I).
 
 command(C) --> assignment(C).
-command(C) --> ternary(C).
+% command(C) --> ternary(C).
 command(C) --> loop(C).
 command(C) --> show(C).
+command(C) --> comment(C).
 command(cmd(C1, C2)) --> assignment(C1), [;], command(C2).
-command(cmd(C1, C2)) --> ternary(C1), [;], command(C2).
+% command(cmd(C1, C2)) --> ternary(C1), [;], command(C2).
 command(cmd(C1, C2)) --> loop(C1), [;], command(C2).
 command(cmd(C1, C2)) --> show(C1), [;], command(C2).
+command(cmd(C1, C2)) --> comment(C1), [;], command(C2).
 
 program(prog(P)) --> command(P).
 
@@ -68,6 +73,7 @@ program(prog(P)) --> command(P).
 
 % function_eval(Id, Args, [(Id,t_codeable_functions(Pt))|_],Value).
 % function_eval(Id, Args, [_|T],Value) :- function_eval(Id, T, Value).
+
 
 /**
  * eval(+Node, +EnvIn, -EnvOut, -ValueOut)
@@ -81,6 +87,8 @@ program(prog(P)) --> command(P).
  */ 
 eval(prog(P), EnvIn, EnvOut, ValueOut) :-
     eval(P, EnvIn, EnvOut, ValueOut).
+
+eval(fyi(S), EnvIn, EnvIn, _ValueOut).
 
 eval(cmd(C1, C2), EnvIn, EnvOut, ValueOut) :-
     eval(C1, EnvIn, EnvTemp, _ValueOut),
@@ -117,6 +125,10 @@ eval(expr_term(T), EnvIn, EnvOut, ValueOut) :-
 eval(expr_assign(A), EnvIn, EnvOut, ValueOut) :-
     eval(A, EnvIn, EnvOut, ValueOut).
 
+eval(term_exponent(Factor, Factor), EnvIn, Env2Out, ValueOut) :-
+    eval(Factor, EnvIn, Env1Out, Val1Out),
+    eval(Factor, Env1Out, Env2Out, Val2Out),
+    ValueOut is Val1Out ** Val2Out.
 eval(term_times(Factor, Term), EnvIn, Env2Out, ValueOut) :-
     eval(Factor, EnvIn, Env1Out, Val1Out),
     eval(Term, Env1Out, Env2Out, Val2Out),

@@ -86,21 +86,20 @@ function loadQuery(session) {
   var programText = document.getElementById("code").value;
   var tokens = tokenizer(programText);
   var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
-  session.query(
-    `program(P, ${formattedTokens}, []), write(P), program_eval(P, 2, 3, Z).`,
-    {
-      success: function (goal) {
-        /* Goal parsed correctly */
-        console.log("Successfully parsed query!");
-        console.log(goal);
-        findAnswer(session);
-      },
-      error: function (err) {
-        console.log("[ERROR] Failed to parse query");
-        console.log(err);
-      },
-    }
-  );
+  var completeQuery = `program(P, ${formattedTokens}, []), write(P), program_eval(P, 2, 3, Z).`;
+  console.log(completeQuery);
+  session.query(completeQuery, {
+    success: function (goal) {
+      /* Goal parsed correctly */
+      console.log("Successfully parsed query!");
+      console.log(goal);
+      findAnswer(session);
+    },
+    error: function (err) {
+      console.log("[ERROR] Failed to parse query");
+      console.log(err);
+    },
+  });
 }
 
 function findAnswer(session) {
