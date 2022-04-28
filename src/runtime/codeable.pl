@@ -69,6 +69,10 @@ program(prog(P)) --> command(P).
 
 % functions(t_functions(Id, Args,Y, Val)) --> identifier(Id), decl_a1(Args), [needs], comm(Y), [answer], [equals], result(Val).
 
+% functions(t_functions(Id, Args,Y, Val)) --> identifier(Id), decl_a1(Args), [needs], comm(Y), [answer], [equals], result(Val).
+% decl_al([]) --> [].
+% decl_al([H|T]) --> identifier(H), decl_al(T).
+
 % Functions eval
 
 % function_eval(Id, Args, [(Id,t_codeable_functions(Pt))|_],Value).
@@ -226,24 +230,3 @@ program_eval(P, X, Y, Z) :-
     update(y, Y, EnvX, EnvY),
     eval(P, EnvY, EnvOut, _ValueOut),
     lookup(z, EnvOut, Z).
-
-% digit(0) --> [0].
-% digit(1) --> [1].
-% digit(2) --> [2].
-% digit(3) --> [3].
-% digit(4) --> [4].
-% digit(5) --> [5].
-% digit(6) --> [6].
-% digit(7) --> [7].
-% digit(8) --> [8].
-% digit(9) --> [9].
-
-% identifier(WORD) --> { var(WORD), ! },
-%     chars(CHARS), { atom_codes(WORD, CHARS) }.
-% identifier(WORD) --> { nonvar(WORD) },
-%    { atom_codes(WORD, CHARS) }, chars(CHARS).
-
-% is_char(X) :- X >= 0'a, X =< 0'z, !.
-% is_char(X) :- X >= 0'A, X =< 0'Z, !.
-% is_char(X) :- X >= 0'0, X =< 0'9, !.
-% is_char(0'_).
