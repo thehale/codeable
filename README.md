@@ -16,3 +16,8 @@ In order to make terminal output, you can input a command in this format when on
 ```
 node .\codeable_cli.js "../../data/fibonacci.code" 
 ```
+
+Video demonstration of the implementation
+```
+https://youtu.be/ernDGFt_-Ms
+```
