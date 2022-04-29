@@ -3,7 +3,7 @@ fyi < example of if statements >
 
 n stores 8
 
-fib stores n if n is_less_than 2 otherwise -1
+fib stores n minus 1 if n is_less_than 3 otherwise -1
 
 if fib is_less_than 0
 
