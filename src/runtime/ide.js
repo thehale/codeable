@@ -17,7 +17,7 @@ function hijackConsoleLog() {
     if (message.toString().indexOf("output") == 1) {
       consoleLog("[DEBUG] Capturing console output");
       let msg = message.toString().slice("[output,".length, -1);
-      document.getElementById("results").value = msg;
+      writeOutput(msg);
     }
     consoleLog(message);
   };
@@ -67,6 +67,7 @@ function patchIntermediateCode(session) {
 function registerRunListener() {
   let runButton = document.getElementById("run");
   runButton.addEventListener("click", (el, ev) => {
+    writeOutput("Loading...");
     let session = pl.create();
     session.consult(intermediateCode, {
       success: () => {
@@ -106,7 +107,7 @@ function findAnswer(session) {
   // Execute the query (execute the goal).
   session.answer({
     success: function (answer) {
-      document.getElementById("results").value = session.format_answer(answer);
+      writeOutput(session.format_answer(answer));
       console.log(answer); // {X/apple}
     },
     error: function (err) {
@@ -122,6 +123,10 @@ function findAnswer(session) {
       console.log("Limit exceeded!");
     },
   });
+}
+
+function writeOutput(message) {
+  document.getElementById("results").value = message;
 }
 
 function tokenizer(fulltext) {
