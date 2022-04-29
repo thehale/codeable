@@ -15,7 +15,7 @@ char(C) --> [C], { char_type(C, alpha) }.
 identifier(I) --> [I], {atom(I)}.
 
 word([W]) --> identifier(W).
-word([W1 | W2]) --> [W1], word(W2), {atom(W1)}.
+word([W1 | W2]) --> [W1], word(W2), { atom(W1), W1 \= <, W1 \= > }.
 strings(S) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
 
 comment(fyi(S)) --> [fyi], strings(S).
@@ -163,6 +163,22 @@ eval(equals(E1, E2), EnvIn, EnvOut, false) :-
     eval(E1, EnvIn, EnvTemp, ValueOut1),
     eval(E2, EnvTemp, EnvOut, ValueOut2),
     ValueOut1 =\= ValueOut2.
+eval(is_less_than(E1, E2), EnvIn, EnvOut, true) :-
+    eval(E1, EnvIn, EnvTemp, ValueOut1),
+    eval(E2, EnvTemp, EnvOut, ValueOut2),
+    ValueOut1 < ValueOut2.
+eval(is_less_than(E1, E2), EnvIn, EnvOut, false) :-
+    eval(E1, EnvIn, EnvTemp, ValueOut1),
+    eval(E2, EnvTemp, EnvOut, ValueOut2),
+    ValueOut1 >= ValueOut2.
+eval(is_greater_than(E1, E2), EnvIn, EnvOut, true) :-
+    eval(E1, EnvIn, EnvTemp, ValueOut1),
+    eval(E2, EnvTemp, EnvOut, ValueOut2),
+    ValueOut1 > ValueOut2.
+eval(is_greater_than(E1, E2), EnvIn, EnvOut, false) :-
+    eval(E1, EnvIn, EnvTemp, ValueOut1),
+    eval(E2, EnvTemp, EnvOut, ValueOut2),
+    ValueOut1 =< ValueOut2.
 
 eval(show_char(C), EnvIn, EnvIn, _ValueOut) :-write([output, C]).
 eval(show_string(S), EnvIn, EnvIn, _ValueOut) :- write([output, S]).

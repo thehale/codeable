@@ -1,12 +1,16 @@
-factorial needs n
-value equals 1
-temp equals n
-while  temp is-greater-than 1
-temp2 equals value
-value equals multiplication of temp with temp2
-temp3 equals temp
-temp equals substraction of temp3 with 1
-repeat
-answer equals value
+fyi < factorial >
+fyi < example of while loop block >
 
-fyi fyi example of while loop block
+n stores 4
+
+value stores 1
+temp stores n
+
+while temp is_greater_than 1
+    temp2 stores value
+    value stores temp times temp2
+    temp3 stores temp
+    temp stores temp3 minus 1
+repeat
+
+show value
