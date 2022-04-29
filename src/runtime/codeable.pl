@@ -189,7 +189,7 @@ eval(is_greater_than(E1, E2), EnvIn, EnvOut, false) :-
     ValueOut1 =< ValueOut2.
 
 eval(show_char(C), EnvIn, EnvIn, _ValueOut) :-write([output, C]).
-eval(show_string(S), EnvIn, EnvIn, _ValueOut) :- write([output, S]).
+eval(show_string(str(S)), EnvIn, EnvIn, _ValueOut) :- write([output, S]).
 eval(show_numeric(D), EnvIn, EnvIn, _ValueOut) :- write([output, D]).
 eval(show_identifier(I), EnvIn, EnvIn, _ValueOut) :- 
     lookup(I, EnvIn, Value),
