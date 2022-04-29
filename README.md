@@ -11,3 +11,13 @@ Windows or Mac OS)
 - ONE LINE of bash script that builds the compiler and ONE LINE that runs the
 runtime.
 - Link to the YouTube video
+
+In order to make terminal output, you can input a command in this format when on the src\runtime:
+```
+node .\codeable_cli.js "../../data/fibonacci.code" 
+```
+
+Video demonstration of the implementation
+```
+https://youtu.be/ernDGFt_-Ms
+```

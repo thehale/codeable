@@ -1,8 +1,10 @@
-let INTERPRETER_CODE_PATH = "jhaleAssign3.pl";
+let INTERPRETER_CODE_PATH = "codeable.pl";
+let LOADING_MSG = "Loading...";
+let OUTPUT_LABEL = "Output";
 let intermediateCode = "";
 
 function populateCodeArea() {
-  var sampleProgram = "begin\n\tvar z ; \n\tconst x = 3 ;\n\tz := x\nend .";
+  var sampleProgram = "greeting stores < hello world >\nshow greeting";
   var codeArea = document.getElementById("code");
   codeArea.value = sampleProgram;
 }
@@ -10,9 +12,15 @@ function populateCodeArea() {
 function hijackConsoleLog() {
   let consoleLog = console.log;
   console.log = (message) => {
+    // debugger
     if (message.toString().indexOf("codeable_version") > 0) {
       consoleLog("[DEBUG] Capturing intermediate code");
       intermediateCode = message;
+    }
+    if (message.toString().indexOf("output") == 1) {
+      consoleLog("[DEBUG] Capturing console output");
+      let msg = message.toString().slice("[output,".length, -1);
+      writeOutput(msg);
     }
     consoleLog(message);
   };
@@ -46,7 +54,8 @@ function patchIntermediateCode(session) {
     success: (answer) => {
       var patchedCode = intermediateCode
         .replace("[(|", "['('|")
-        .replace("[)|", "[')'|");
+        .replace("[)|", "[')'|")
+        .replace(", ,", ",' ',");
       console.log(patchedCode);
     },
     error: (err) => {
@@ -58,20 +67,30 @@ function patchIntermediateCode(session) {
   });
 }
 
+function prepareComputation(callback) {
+  document.getElementById("output-label").innerHTML = LOADING_MSG;
+  writeOutput("", overwrite = true);
+  setTimeout(() => {
+    callback();
+  }, 0)
+}
+
 function registerRunListener() {
   let runButton = document.getElementById("run");
   runButton.addEventListener("click", (el, ev) => {
-    let session = pl.create();
-    session.consult(intermediateCode, {
-      success: () => {
-        console.log("[INFO] Loaded interpreter source code");
-        loadQuery(session);
-      },
-      error: (err) => {
-        console.log("[ERROR] Failed to load interpreter source code");
-        console.log(err);
-      },
-    });
+    prepareComputation(() => {
+      let session = pl.create();
+      session.consult(intermediateCode, {
+        success: () => {
+          console.log("[INFO] Loaded interpreter source code");
+          loadQuery(session);
+        },
+        error: (err) => {
+          console.log("[ERROR] Failed to load interpreter source code");
+          console.log(err);
+        },
+      });
+    })
   });
 }
 
@@ -80,29 +99,28 @@ function loadQuery(session) {
   var programText = document.getElementById("code").value;
   var tokens = tokenizer(programText);
   var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
-  session.query(
-    `program(P, ${formattedTokens}, []), write(P), program_eval(P, 2, 3, Z).`,
-    {
-      success: function (goal) {
-        /* Goal parsed correctly */
-        console.log("Successfully parsed query!");
-        console.log(goal);
-        findAnswer(session);
-      },
-      error: function (err) {
-        console.log("[ERROR] Failed to parse query");
-        console.log(err);
-      },
-    }
-  );
+  var completeQuery = `program(P, ${formattedTokens}, []), eval(P, [], EnvOut, ValueOut).`;
+  console.log(completeQuery);
+  session.query(completeQuery, {
+    success: function (goal) {
+      /* Goal parsed correctly */
+      console.log("Successfully parsed query!");
+      console.log(goal);
+      findAnswer(session);
+    },
+    error: function (err) {
+      console.log("[ERROR] Failed to parse query");
+      console.log(err);
+    },
+  });
 }
 
 function findAnswer(session) {
   // Execute the query (execute the goal).
   session.answer({
     success: function (answer) {
-      document.getElementById("results").value = session.format_answer(answer);
-      console.log(session.format_answer(answer)); // {X/apple}
+      console.log(session.format_answer(answer));
+      document.getElementById("output-label").innerHTML = OUTPUT_LABEL;
     },
     error: function (err) {
       /* Uncaught error */
@@ -119,6 +137,14 @@ function findAnswer(session) {
   });
 }
 
+function writeOutput(message, overwrite = false) {
+  if (overwrite) {
+    document.getElementById("results").value = message;
+  } else {
+    document.getElementById("results").value += `${message}\n`;
+  }
+}
+
 function tokenizer(fulltext) {
   var tokens = fulltext.split(/\s/).filter((token) => token.length > 0);
   return tokens;
@@ -129,11 +155,6 @@ function main() {
   hijackConsoleLog();
   prepareInterpreter();
   registerRunListener();
-
-  var tokens = tokenizer(
-    'tower-of-hanoi disks with source with target with medium if disks is-greater-than 0 disks1 equals subtraction of disks with 1 tower-of-hanoi of disks1 with source with medium with target show-value-of " Move disk " with disks with " from rod " with source with " with rod " with target tower-of-hanoi of disks1 with medium with target with source move-on answer equals no-answer'
-  );
-  console.log(tokens);
 }
 
 main();
