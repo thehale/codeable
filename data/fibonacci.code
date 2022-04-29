@@ -22,8 +22,9 @@ if fib is_less_than 0
     repeat
 
 otherwise
-    
-    show < try a higher value of n for more fun >
+
+    message stores < try a higher value of n for more fun >
+    show message
 
 move_on
 

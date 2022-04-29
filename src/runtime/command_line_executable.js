@@ -1,36 +1,37 @@
 const fs = require('fs');
-const tokenizer = require('/ide')
-const tau_prolog = require('/tau-prolog')
-
-function readFileLoad(fileName, callback){
-    
-    return callback(data);
-}
+const pl = require('tau-prolog');
+let INTERPRETER_CODE_PATH = "codeable.pl";
 
 function tokenizeExecute(fileName){
-    fs.readFile(fileName, 'utf8', (err, data) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        console.log(data);
-    });
+  var data = ""
+  fs.readFile(fileName, 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // console.log(data);
     let session = pl.create();
-      session.consult(intermediateCode, {
-        success: () => {
-          console.log("[INFO] Loaded interpreter source code");
-          loadQueryEx(session);
-        },
-        error: (err) => {
-          console.log("[ERROR] Failed to load interpreter source code");
-          console.log(err);
-        },
+    session.consult(INTERPRETER_CODE_PATH, {
+      success: () => {
+        console.log("[INFO] Loaded interpreter source code");
+        loadQueryEx(session, data);
+      },
+      error: (err) => {
+        console.log("[ERROR] Failed to load interpreter source code");
+        console.log(err);
+      },
     });
+  });
+}
+
+function tokenizer(fulltext) {
+  var tokens = fulltext.split(/\s/).filter((token) => token.length > 0);
+  return tokens;
 }
 
 // Create the query (parse the query).
 function loadQueryEx(session, programText) {
-    var tokens = tokenizer.tokenizer(programText);
+    var tokens = tokenizer(programText);
     var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
     var completeQuery = `program(P, ${formattedTokens}, []), write(P), eval(P, [], EnvOut, ValueOut).`;
     console.log(completeQuery);
@@ -52,7 +53,7 @@ function loadQueryEx(session, programText) {
     // Execute the query (execute the goal).
     session.answer({
       success: function (answer) {
-        writeOutput(session.format_answer(answer));
+        console.log("==:ANSWER:==")
         console.log(answer); // {X/apple}
       },
       error: function (err) {
@@ -70,3 +71,5 @@ function loadQueryEx(session, programText) {
     });
   }
   
+  const myArgs = process.argv.slice(2);
+  tokenizeExecute(myArgs[0]);
