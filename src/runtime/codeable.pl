@@ -44,7 +44,12 @@ boolean(is_greater_than(E1, E2)) --> expr(E1), [is_greater_than], expr(E2).
 boolean(is_less_than(E1, E2)) --> expr(E1), [is_less_than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
-% ternary(t_ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
+assignment(assign(I, E)) --> identifier(I), [stores], selection_inline(E).
+
+selection(if(B, C, fyi(no_op))) --> [if], boolean(B), command(C), [move_on].
+selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command(C2), [move_on].
+selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
+
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
 loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
 
@@ -57,11 +62,13 @@ command(cmd(C1, C2)) --> assignment(C1), command(C2).
 % command(cmd(C1, C2)) --> ternary(C1), command(C2).
 command(cmd(C1, C2)) --> loop(C1), command(C2).
 command(cmd(C1, C2)) --> show(C1), command(C2).
+command(cmd(C1, C2)) --> selection(C1), command(C2).
 command(C) --> comment(C).
 command(C) --> assignment(C).
 % command(C) --> ternary(C).
 command(C) --> loop(C).
 command(C) --> show(C).
+command(C) --> selection(C).
 
 program(prog(P)) --> command(P).
 
@@ -108,6 +115,8 @@ eval(if(B, T, _), EnvIn, EnvOut, ValueOut) :-
 eval(if(B, _, F), EnvIn, EnvOut, ValueOut) :-
     eval(B, EnvIn, EnvTemp, false),
     eval(F, EnvTemp, EnvOut, ValueOut).
+eval(ternary(B, T, F), EnvIn, EnvOut, ValueOut) :-
+    eval(if(B, T, F), EnvIn, EnvOut, ValueOut).
 
 eval(while(B, C), EnvIn, EnvOut, ValueOut) :-
     eval(B, EnvIn, EnvTemp, true),

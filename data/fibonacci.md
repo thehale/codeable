@@ -1,0 +1,30 @@
+fyi < fibonacci >
+fyi < example of if statements >
+
+n stores 8
+
+fib stores n if n is_less_than 2 otherwise -1
+
+if fib is_less_than 0
+
+    iterator stores 1
+
+    fyi < store the first two values of the fibonacci sequence >
+    anteprev_n stores 0
+    prev_n stores 1
+
+    fyi < compute fibonacci numbers until n is reached >
+    while iterator is_less_than n minus 1
+        fib stores anteprev_n plus prev_n
+        anteprev_n stores prev_n
+        prev_n stores fib
+        iterator stores iterator plus 1
+    repeat
+
+otherwise
+    
+    show < try a higher value of n for more fun >
+
+move_on
+
+show fib
