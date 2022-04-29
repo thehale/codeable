@@ -9,3 +9,14 @@
 | 2022-04-06 | @jgjanes | Jacob Janes | Finalized interpreter discussion for milestone 1 |
 | 2022-04-06 | @07sainishanth | Sai Nishanth Vaka | Verified grammar added final touches |
 | 2022-04-06 | @everyone | Everyone | Completed Milestone 1 PDF Draft |
+| 2022-04-20 | @07sainishanth | Sai Nishanth Vaka | Intialised parser file |
+| 2022-04-21 | @jgjanes | Jacob Janes | Added partial evaluator and parser logic |
+| 2022-04-21 | @jgjanes | Jacob Janes | Update validation of boolean and term expression in parser |
+| 2022-04-21 | @jgjanes | Jacob Janes | Updated parser and removed quotes for tokens |
+| 2022-04-25 | @jakehresh | Jacob Hreshchyshyn | Added Logic for the for loops to grammar documentation |
+| 2022-04-26 | @jgjanes | Jacob Janes | Create Browser Runtime Environment |
+| 2022-04-26 | @rarun321 | Rithvik Arun | Create Browser Runtime Environment |
+| 2022-04-26 | @jhale1805 | Joseph Hale | Create Browser Runtime Environment |
+| 2022-04-26 | @jhale1805 | Joseph Hale | WIP Codeable improvements |
+| 2022-04-26 | @jhale1805 | Joseph Hale | Successfully evaluate SER502 example language |
+| 2022-04-26 | @jhale1805 | Joseph Hale | Move sample program to code textarea |
