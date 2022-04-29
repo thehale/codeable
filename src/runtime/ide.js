@@ -4,7 +4,7 @@ let OUTPUT_LABEL = "Output";
 let intermediateCode = "";
 
 function populateCodeArea() {
-  var sampleProgram = "show 25";
+  var sampleProgram = "greeting stores < hello world >\nshow greeting";
   var codeArea = document.getElementById("code");
   codeArea.value = sampleProgram;
 }
@@ -12,6 +12,7 @@ function populateCodeArea() {
 function hijackConsoleLog() {
   let consoleLog = console.log;
   console.log = (message) => {
+    // debugger
     if (message.toString().indexOf("codeable_version") > 0) {
       consoleLog("[DEBUG] Capturing intermediate code");
       intermediateCode = message;
@@ -98,7 +99,7 @@ function loadQuery(session) {
   var programText = document.getElementById("code").value;
   var tokens = tokenizer(programText);
   var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
-  var completeQuery = `program(P, ${formattedTokens}, []), write(P), program_eval(P, 2, 3, Z).`;
+  var completeQuery = `program(P, ${formattedTokens}, []), eval(P, [], EnvOut, ValueOut).`;
   console.log(completeQuery);
   session.query(completeQuery, {
     success: function (goal) {
@@ -118,8 +119,8 @@ function findAnswer(session) {
   // Execute the query (execute the goal).
   session.answer({
     success: function (answer) {
-      writeOutput(session.format_answer(answer));
-      console.log(answer); // {X/apple}
+      console.log(session.format_answer(answer));
+      document.getElementById("output-label").innerHTML = OUTPUT_LABEL;
     },
     error: function (err) {
       /* Uncaught error */
@@ -127,7 +128,6 @@ function findAnswer(session) {
     },
     fail: function () {
       /* No more answers */
-      document.getElementById("output-label").innerHTML = OUTPUT_LABEL;
       console.log("No more answers!");
     },
     limit: function () {
