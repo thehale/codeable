@@ -33,13 +33,13 @@ function tokenizer(fulltext) {
 function loadQueryEx(session, programText) {
     var tokens = tokenizer(programText);
     var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
-    var completeQuery = `program(P, ${formattedTokens}, []), write(P), eval(P, [], EnvOut, ValueOut).`;
-    console.log(completeQuery);
+    var completeQuery = `program(P, ${formattedTokens}, []), eval(P, [], EnvOut, ValueOut).`;
+    // console.log(completeQuery);
     session.query(completeQuery, {
       success: function (goal) {
         /* Goal parsed correctly */
         console.log("Successfully parsed query!");
-        console.log(goal);
+        // console.log(goal);
         findAnswerEx(session);
       },
       error: function (err) {
@@ -53,8 +53,8 @@ function loadQueryEx(session, programText) {
     // Execute the query (execute the goal).
     session.answer({
       success: function (answer) {
-        console.log("==:ANSWER:==")
-        console.log(answer); // {X/apple}
+        // console.log("==:ANSWER:==")
+        //console.log(answer); // {X/apple}
       },
       error: function (err) {
         /* Uncaught error */
