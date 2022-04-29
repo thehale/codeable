@@ -1,7 +1,7 @@
 fyi < fibonacci >
 fyi < example of if statements >
 
-n stores 8
+n stores 2
 
 fib stores n minus 1 if n is_less_than 3 otherwise -1
 
