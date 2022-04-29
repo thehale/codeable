@@ -51,7 +51,8 @@ selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command
 selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
-loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
+loop(for(I, E, C)) --> [for], expr(I), [in], expr(E), command(C), [repeat].
+ % loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
 
 show(show_string(S)) --> [show], strings(S).
 show(show_numeric(D)) --> [show], numeric(D).
@@ -124,6 +125,14 @@ eval(while(B, C), EnvIn, EnvOut, ValueOut) :-
     eval(while(B, C), EnvTemp2, EnvOut, ValueOut).
 eval(while(B, _), EnvIn, EnvOut, _ValueOut) :-
     eval(B, EnvIn, EnvOut, false).
+eval(for(I, E, C), EnvIn, EnvOut, ValueOut) :-
+    eval(is_less_than(I, E), EnvIn, EnvTemp, true),
+    update(I, I + 1, EnvTemp, EnvTemp2),
+    eval(C, EnvTemp2, EnvTemp3, _ValueOut),
+    eval(for(I, E, C), EnvTemp3, EnvOut, ValueOut).
+eval(for(I, E, _), EnvIn, EnvOut, _ValueOut) :-
+    eval(is_less_than(I, E), EnvIn, EnvOut, false).
+
 
 eval(expr_plus(Term, Expression), EnvIn, EnvOut, ValueOut) :-
     eval(Term, EnvIn, EnvTemp, ValTerm),
