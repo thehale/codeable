@@ -20,3 +20,46 @@
 | 2022-04-26 | @jhale1805 | Joseph Hale | WIP Codeable improvements |
 | 2022-04-26 | @jhale1805 | Joseph Hale | Successfully evaluate SER502 example language |
 | 2022-04-26 | @jhale1805 | Joseph Hale | Move sample program to code textarea |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Integreate parser/evaluator with IDE |
+| 2022-04-28 | @jgjanes | Jacob Janes | Implement Strings & other parser improvements |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Implement Strings & other parser improvements |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Implement Strings & other parser improvements |
+| 2022-04-28 | @jgjanes | Jacob Janes | Evaluate Codeable Quadratic Formula |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Evaluate Codeable Quadratic Formula |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Evaluate Codeable Quadratic Formula |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Clear Dead Code |
+| 2022-04-28 | @jgjanes | Jacob Janes | Successfully evaluate factorial |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Successfully evaluate factorial  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Successfully evaluate factorial  |
+| 2022-04-28 | @07sainishanth | Sai Nishanth Vaka | Successfully evaluate factorial  |
+| 2022-04-28 | @jgjanes | Jacob Janes | Successfully evaluate fibonacci |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Successfully evaluate fibonacci  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Successfully evaluate fibonacci  |
+| 2022-04-28 | @jgjanes | Jacob Janes | Bug Fix Codeable |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Bug Fix Codeable  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Bug Fix Codeable |
+| 2022-04-28 | @07sainishanth | Sai Nishanth Vaka | Bug Fix Codeable!  |
+| 2022-04-28 | @jgjanes | Jacob Janes | Add basic logic to for loops |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Add basic logic to for loops  |
+| 2022-04-28 | @jgjanes | Jacob Janes | Finalize Language |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Finalize Language  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Finalize Language |
+| 2022-04-28 | @07sainishanth | Sai Nishanth Vaka | Finalize Language  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Adjust IDE environment in browser |
+| 2022-04-28 | @07sainishanth | Sai Nishanth Vaka | Generate Terminal environment for codeable  |
+| 2022-04-28 | @jgjanes | Jacob Janes | Create Presentation |
+| 2022-04-28 | @rarun321 | Rithvik Arun | Create Presentation  |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Add strings to codeable variable tree |
+| 2022-04-28 | @jhale1805 | Joseph Hale | Cleanup Dead code |
+| 2022-04-28 | Everyone | Everyone | Record implementation video |
+| 2022-04-29 | @jhale1805 | Joseph Hale | Update documentation |
+
+
+
+
+
+
+
+
+
+
