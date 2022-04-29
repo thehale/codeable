@@ -1,4 +1,6 @@
 let INTERPRETER_CODE_PATH = "codeable.pl";
+let LOADING_MSG = "Loading...";
+let OUTPUT_LABEL = "Output";
 let intermediateCode = "";
 
 function populateCodeArea() {
@@ -64,21 +66,30 @@ function patchIntermediateCode(session) {
   });
 }
 
+function prepareComputation(callback) {
+  document.getElementById("output-label").innerHTML = LOADING_MSG;
+  writeOutput("", overwrite = true);
+  setTimeout(() => {
+    callback();
+  }, 0)
+}
+
 function registerRunListener() {
   let runButton = document.getElementById("run");
   runButton.addEventListener("click", (el, ev) => {
-    writeOutput("Loading...");
-    let session = pl.create();
-    session.consult(intermediateCode, {
-      success: () => {
-        console.log("[INFO] Loaded interpreter source code");
-        loadQuery(session);
-      },
-      error: (err) => {
-        console.log("[ERROR] Failed to load interpreter source code");
-        console.log(err);
-      },
-    });
+    prepareComputation(() => {
+      let session = pl.create();
+      session.consult(intermediateCode, {
+        success: () => {
+          console.log("[INFO] Loaded interpreter source code");
+          loadQuery(session);
+        },
+        error: (err) => {
+          console.log("[ERROR] Failed to load interpreter source code");
+          console.log(err);
+        },
+      });
+    })
   });
 }
 
@@ -116,6 +127,7 @@ function findAnswer(session) {
     },
     fail: function () {
       /* No more answers */
+      document.getElementById("output-label").innerHTML = OUTPUT_LABEL;
       console.log("No more answers!");
     },
     limit: function () {
@@ -125,8 +137,12 @@ function findAnswer(session) {
   });
 }
 
-function writeOutput(message) {
-  document.getElementById("results").value = message;
+function writeOutput(message, overwrite = false) {
+  if (overwrite) {
+    document.getElementById("results").value = message;
+  } else {
+    document.getElementById("results").value += `${message}\n`;
+  }
 }
 
 function tokenizer(fulltext) {
@@ -139,11 +155,6 @@ function main() {
   hijackConsoleLog();
   prepareInterpreter();
   registerRunListener();
-
-  var tokens = tokenizer(
-    'tower-of-hanoi disks with source with target with medium if disks is-greater-than 0 disks1 equals subtraction of disks with 1 tower-of-hanoi of disks1 with source with medium with target show-value-of " Move disk " with disks with " from rod " with source with " with rod " with target tower-of-hanoi of disks1 with medium with target with source move-on answer equals no-answer'
-  );
-  console.log(tokens);
 }
 
 main();
