@@ -51,8 +51,8 @@ selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command
 selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
-loop(for(I, E, C)) --> [for], expr(I), [in], expr(E), command(C), [repeat].
- % loop(for(I1, I2, C)) --> [for], identifier(I1), [from], identifier(I2), command(C), [repeat].
+loop(for(I, Start, Stop, 1, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), command(C), [repeat].
+loop(for(I, Start, Stop, Step, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), [by], expr(Step), command(C), [repeat].
 
 show(show_string(S)) --> [show], strings(S).
 show(show_numeric(D)) --> [show], numeric(D).
@@ -125,14 +125,19 @@ eval(while(B, C), EnvIn, EnvOut, ValueOut) :-
     eval(while(B, C), EnvTemp2, EnvOut, ValueOut).
 eval(while(B, _), EnvIn, EnvOut, _ValueOut) :-
     eval(B, EnvIn, EnvOut, false).
-eval(for(I, E, C), EnvIn, EnvOut, ValueOut) :-
-    eval(is_less_than(I, E), EnvIn, EnvTemp, true),
-    update(I, I + 1, EnvTemp, EnvTemp2),
-    eval(C, EnvTemp2, EnvTemp3, _ValueOut),
-    eval(for(I, E, C), EnvTemp3, EnvOut, ValueOut).
-eval(for(I, E, _), EnvIn, EnvOut, _ValueOut) :-
-    eval(is_less_than(I, E), EnvIn, EnvOut, false).
 
+eval(for(I, Start, Stop, Step, C), EnvIn, EnvOut, ValueOut) :-
+    eval(is_less_than(Start, Stop), EnvIn, EnvTemp, true),
+    eval(Start, EnvTemp, EnvTemp1, ValueStart), 
+    update(I, ValueStart, EnvTemp1, EnvTemp2),
+    eval(C, EnvTemp2, EnvTemp3, _ValueOut),
+    eval(Step, EnvTemp3, EnvTemp4, ValueStep),
+    NextStart is ValueStart + ValueStep,
+    eval(for(I, expr_term(term_factor(factor_numeric(NextStart))), Stop, Step, C), EnvTemp4, EnvOut, ValueOut).
+eval(for(I, Start, Stop, _, _), EnvIn, EnvOut, _ValueOut) :-
+    eval(Start, EnvIn, EnvTemp, ValueStart),
+    update(I, ValueStart, EnvTemp, EnvTemp2),
+    eval(is_less_than(Start, Stop), EnvTemp2, EnvOut, false).
 
 eval(expr_plus(Term, Expression), EnvIn, EnvOut, ValueOut) :-
     eval(Term, EnvIn, EnvTemp, ValTerm),
