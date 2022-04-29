@@ -5,18 +5,16 @@
  */
 codeable_version(0,0,1).
 
-%%%%% Token Parser %%%%%%
-% Parser - Numercis
+/**
+ * Token Parser
+ */
 numeric(N) --> [N], {number(N)}.
-
-% v3 (Heavily inspired by M2.1 - slide 59)
-char(C) --> [C], { char_type(C, alpha) }.
 
 identifier(I) --> [I], {atom(I)}.
 
 word([W]) --> identifier(W).
 word([W1 | W2]) --> [W1], word(W2), { atom(W1), W1 \= <, W1 \= > }.
-strings(S) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
+strings(str(S)) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
 
 comment(fyi(S)) --> [fyi], strings(S).
 
@@ -34,7 +32,6 @@ term(term_divide(T1, T2)) -->  factor(T1), [divided_by], term(T2).
 expr(expr_term(E)) --> term(E).
 expr(expr_plus(E1, E2)) --> term(E1), [plus],  expr(E2).
 expr(expr_minus(E1, E2)) --> term(E1), [minus],  expr(E2).
-% expr(expr_ternary(T)) --> ternary(T).
 
 boolean(true) --> [true].
 boolean(false) --> [false].
@@ -44,15 +41,17 @@ boolean(is_greater_than(E1, E2)) --> expr(E1), [is_greater_than], expr(E2).
 boolean(is_less_than(E1, E2)) --> expr(E1), [is_less_than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
+assignment(assign(I, E)) --> identifier(I), [stores], strings(E).
 assignment(assign(I, E)) --> identifier(I), [stores], selection_inline(E).
 
 selection(if(B, C, fyi(no_op))) --> [if], boolean(B), command(C), [move_on].
 selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command(C2), [move_on].
 selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 
-loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
-loop(for(I, Start, Stop, 1, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), command(C), [repeat].
 loop(for(I, Start, Stop, Step, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), [by], expr(Step), command(C), [repeat].
+loop(for(I, Start, Stop, 1, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), command(C), [repeat].
+
+loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
 
 show(show_string(S)) --> [show], strings(S).
 show(show_numeric(D)) --> [show], numeric(D).
@@ -60,32 +59,16 @@ show(show_identifier(I)) --> [show], identifier(I).
 
 command(cmd(C1, C2)) --> comment(C1), command(C2).
 command(cmd(C1, C2)) --> assignment(C1), command(C2).
-% command(cmd(C1, C2)) --> ternary(C1), command(C2).
 command(cmd(C1, C2)) --> loop(C1), command(C2).
 command(cmd(C1, C2)) --> show(C1), command(C2).
 command(cmd(C1, C2)) --> selection(C1), command(C2).
 command(C) --> comment(C).
 command(C) --> assignment(C).
-% command(C) --> ternary(C).
 command(C) --> loop(C).
 command(C) --> show(C).
 command(C) --> selection(C).
 
 program(prog(P)) --> command(P).
-
-% Parser - Functions
-
-% functions(t_functions(Id, Args,Y, Val)) --> identifier(Id), decl_a1(Args), [needs], comm(Y), [answer], [equals], result(Val).
-
-% functions(t_functions(Id, Args,Y, Val)) --> identifier(Id), decl_a1(Args), [needs], comm(Y), [answer], [equals], result(Val).
-% decl_al([]) --> [].
-% decl_al([H|T]) --> identifier(H), decl_al(T).
-
-% Functions eval
-
-% function_eval(Id, Args, [(Id,t_codeable_functions(Pt))|_],Value).
-% function_eval(Id, Args, [_|T],Value) :- function_eval(Id, T, Value).
-
 
 /**
  * eval(+Node, +EnvIn, -EnvOut, -ValueOut)
@@ -100,7 +83,9 @@ program(prog(P)) --> command(P).
 eval(prog(P), EnvIn, EnvOut, ValueOut) :-
     eval(P, EnvIn, EnvOut, ValueOut).
 
-eval(fyi(_S), EnvIn, EnvIn, _ValueOut).
+eval(fyi(S), EnvIn, EnvIn, S).
+
+eval(str(S), EnvIn, EnvIn, S).
 
 eval(cmd(C1, C2), EnvIn, EnvOut, ValueOut) :-
     eval(C1, EnvIn, EnvTemp, _ValueOut),
@@ -221,22 +206,6 @@ lookup(Identifier, [(OtherIdentifier, _) | RemainingEnvironment], Value) :-
     lookup(Identifier, RemainingEnvironment, Value).
 
 /**
- * declare(+Identifier, +EnvIn, -EnvOut)
- * 
- * Adds a new binding (Identifier, _) to EnvIn and returns EnvOut.
- *
- * If Identifier is already bound in EnvIn, it is not rebound.
- */
-declare(Identifier, [], [(Identifier, _)]).
-declare(
-    Identifier,
-    [(Identifier, Value) | RemainingEnvironment],
-    [(Identifier, Value) | RemainingEnvironment]
-).
-declare(Identifier, [H | RemainingEnvironment], [H | NewEnvironment]) :-
-    declare(Identifier, RemainingEnvironment, NewEnvironment).
-
-/**
  * update(+Identifier, +Value, +EnvIn, -EnvOut)
  * 
  * Updates the binding of Identifier in EnvIn to Value and returns EnvOut.
@@ -256,16 +225,3 @@ update(
 ) :-
     Identifier \= OtherIdentifier,
     update(Identifier, Value, RemainingEnvironment, NewEnvironment).
-
-
-/**
- * program_eval(+Program, +InitialX, +InitialY, -FinalZ)
- * 
- * Evaluates the Program with the initial value of X and Y 
- * and returns the final value of Z.
- */
-program_eval(P, X, Y, Z) :-
-    update(x, X, [], EnvX),
-    update(y, Y, EnvX, EnvY),
-    eval(P, EnvY, EnvOut, _ValueOut),
-    lookup(z, EnvOut, Z).
