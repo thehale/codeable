@@ -19,13 +19,18 @@ A browser based development environment will then open in your browser.
 ### Command Line Usage
 Codeable can also be run entirely on the command line.
 
-1. Install [Node.js](https://nodejs.org/en/)
+1. Install [Node.js](https://nodejs.org/en/) (version 16 or later)
 2. Open the folder `src/runtime` in a terminal.
 3. Execute the command `npm install` to download all required dependencies.
 
 Codeable code can then be execuated using the following command.
 ```
 node .\codeable_cli.js "PATH_TO_DOT_CODE_FILE" 
+```
+
+For example, running a sample program
+```
+node .\codeable_cli.js "../../data/hello_world.code" 
 ```
 
 ## Video Demonstration
