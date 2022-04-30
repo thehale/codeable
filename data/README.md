@@ -2,6 +2,10 @@
 
 The `.code` files in this directory are sample programs that demonstrate the full feature set of Codeable.
 
-## `factorial.code`
-Demonstrates the following requirements:
- - 
+| Sample Program | Requirements Demonstrated |
+|----------------|---------------------------|
+| `hello_world.code` | 1c, 2, 5 |
+| `factorial.code` | 1a, 1b, 2, 4b, 5 |
+| `fibonacci.code` | 1a, 1b, 1c, 2, 3a, 3b, 4b, 5 |
+| `quadratic_formula.code` | 1b, 2, 5 |
+| `range_count.code` | 1b, 2, 4a, 4c |

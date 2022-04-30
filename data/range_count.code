@@ -5,6 +5,10 @@ i stores 0
 a stores 5
 
 fyi < uses i as an iterator for a >
-for i from 0 to a by 1
+for i from 0 to a 
+    show i
+repeat
+
+for i from 0 to 10 by 2
     show i
 repeat

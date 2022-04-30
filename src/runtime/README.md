@@ -1,1 +1,0 @@
-For the interpreter code in Prolog, we have to make sure that there is a predicate named `codeable_version` so that we can properly capture the intermediate generated code.

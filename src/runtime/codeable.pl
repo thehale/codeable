@@ -1,3 +1,11 @@
+/**
+ * Authors: Joseph Hale, Jacob Janes, Rithvik Arun, 
+Sai Nishanth Vaka, and Jacob Hreshchyshyn
+ * Purpose: Interpreter for Codeable code.
+ * Date: 29 Apr 2022
+ * Version: 0.1.0
+ */
+
 % :- use_rendering(svgtree).  % Only works in SWISH.swi-prolog.org
 
 /**
@@ -49,7 +57,7 @@ selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command
 selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 
 loop(for(I, Start, Stop, Step, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), [by], expr(Step), command(C), [repeat].
-loop(for(I, Start, Stop, 1, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), command(C), [repeat].
+loop(for(I, Start, Stop, expr_term(term_factor(factor_numeric(1))), C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), command(C), [repeat].
 
 loop(while(B, C)) --> [while], boolean(B), command(C), [repeat].
 

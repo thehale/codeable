@@ -1,3 +1,11 @@
+/**
+ * Authors: Joseph Hale, Jacob Janes, Rithvik Arun, 
+Sai Nishanth Vaka, and Jacob Hreshchyshyn
+ * Purpose: Unit tests for small portions of the Codeable interpreter
+ * Date: 29 Apr 2022
+ * Version: 0.1.0
+ */
+
 :- begin_tests(codeable).
 :- include("codeable.pl").
 

@@ -1,3 +1,11 @@
+/**
+ * Authors: Joseph Hale, Jacob Janes, Rithvik Arun, 
+Sai Nishanth Vaka, and Jacob Hreshchyshyn
+ * Purpose: CLI for executing Codeable
+ * Date: 29 Apr 2022
+ * Version: 0.1.0
+ */
+
 const fs = require('fs');
 const pl = require('tau-prolog');
 let INTERPRETER_CODE_PATH = "codeable.pl";

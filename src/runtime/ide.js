@@ -1,3 +1,11 @@
+/**
+ * Authors: Joseph Hale, Jacob Janes, Rithvik Arun, 
+Sai Nishanth Vaka, and Jacob Hreshchyshyn
+ * Purpose: Interactivity for the browser based Codeable IDE
+ * Date: 29 Apr 2022
+ * Version: 0.1.0
+ */
+
 let INTERPRETER_CODE_PATH = "codeable.pl";
 let LOADING_MSG = "Loading...";
 let OUTPUT_LABEL = "Output";
