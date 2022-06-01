@@ -1,3 +1,9 @@
+<!--
+ Copyright (c) 2022 Rithvik Arun, Joseph Hale, Jacob Hreshchyshyn, Jacob Janes, Sai Nishanth Vaka
+ This software is released under the MIT License.
+ https://opensource.org/licenses/MIT
+-->
+
 # Codeable
 A sleek, highly readable programming langugage designed with novices in mind.
 
@@ -30,7 +36,7 @@ node .\codeable_cli.js "PATH_TO_DOT_CODE_FILE"
 
 For example, running a sample program
 ```
-node .\codeable_cli.js "../../data/hello_world.code" 
+node .\codeable_cli.js "../../example/hello_world.code" 
 ```
 
 ## Video Demonstration

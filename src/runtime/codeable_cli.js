@@ -1,6 +1,9 @@
+// Copyright (c) 2022 Rithvik Arun, Joseph Hale, Jacob Hreshchyshyn, Jacob Janes, Sai Nishanth Vaka
+// 
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 /**
- * Authors: Joseph Hale, Jacob Janes, Rithvik Arun, 
-Sai Nishanth Vaka, and Jacob Hreshchyshyn
  * Purpose: CLI for executing Codeable
  * Date: 29 Apr 2022
  * Version: 0.1.0

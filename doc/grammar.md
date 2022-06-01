@@ -1,3 +1,9 @@
+<!--
+ Copyright (c) 2022 Rithvik Arun, Joseph Hale, Jacob Hreshchyshyn, Jacob Janes, Sai Nishanth Vaka
+ This software is released under the MIT License.
+ https://opensource.org/licenses/MIT
+-->
+
 // Initial Definitions
 `identifier` := \w+
 
