@@ -7,6 +7,11 @@
 # Codeable
 A sleek, highly readable programming langugage designed with novices in mind.
 
+<!-- BADGES -->
+[![](https://badgen.net/github/license/thehale/codeable)](https://github.com/thehale/codeable/blob/master/LICENSE)
+[![](https://badgen.net/badge/icon/Sponsor/pink?icon=github&label)](https://github.com/sponsors/thehale)
+[![](https://badgen.net/badge/icon/Follow%20@jhaledev/1DA1F2?icon=twitter&label)](https://twitter.com/intent/user?screen_name=jhaledev)
+
 Codeable was created by Joseph Hale, Jacob Janes, Rithvik Arun, 
 Sai Nishanth Vaka, and Jacob Hreshchyshyn as part of their coursework in Dr. Ajay Bansal's SER502 course at Arizona State University in Spring 2022.
 
