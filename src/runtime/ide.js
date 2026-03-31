@@ -15,7 +15,7 @@ let OUTPUT_LABEL = "Output";
 let intermediateCode = "";
 
 function populateCodeArea() {
-  var sampleProgram = "greeting stores < hello world >\nshow greeting";
+  var sampleProgram = 'greeting stores "hello world"\nshow greeting';
   var codeArea = document.getElementById("code");
   codeArea.value = sampleProgram;
 }
@@ -109,7 +109,7 @@ function registerRunListener() {
 function loadQuery(session) {
   var programText = document.getElementById("code").value;
   var tokens = tokenizer(programText);
-  var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
+  var formattedTokens = "[" + tokens.map(t => t === '"' ? "'\"'" : t).join(', ') + "]";
   var completeQuery = `program(P, ${formattedTokens}, []), eval(P, [], EnvOut, ValueOut).`;
   console.log(completeQuery);
   session.query(completeQuery, {
@@ -157,8 +157,8 @@ function writeOutput(message, overwrite = false) {
 }
 
 function tokenizer(fulltext) {
-  var tokens = fulltext.split(/\s/).filter((token) => token.length > 0);
-  return tokens;
+  var preprocessed = fulltext.replace(/"/g, ' " ');
+  return preprocessed.split(/\s/).filter((token) => token.length > 0);
 }
 
 function main() {

@@ -36,14 +36,14 @@ function tokenizeExecute(fileName){
 }
 
 function tokenizer(fulltext) {
-  var tokens = fulltext.split(/\s/).filter((token) => token.length > 0);
-  return tokens;
+  var preprocessed = fulltext.replace(/"/g, ' " ');
+  return preprocessed.split(/\s/).filter((token) => token.length > 0);
 }
 
 // Create the query (parse the query).
 function loadQueryEx(session, programText) {
     var tokens = tokenizer(programText);
-    var formattedTokens = JSON.stringify(tokens).replaceAll('"', "");
+    var formattedTokens = "[" + tokens.map(t => t === '"' ? "'\"'" : t).join(', ') + "]";
     var completeQuery = `program(P, ${formattedTokens}, []), eval(P, [], EnvOut, ValueOut).`;
     // console.log(completeQuery);
     session.query(completeQuery, {
