@@ -26,8 +26,8 @@ numeric(N) --> [N], {number(N)}.
 identifier(I) --> [I], {atom(I)}.
 
 word([W]) --> identifier(W).
-word([W1 | W2]) --> [W1], word(W2), { atom(W1), W1 \= <, W1 \= > }.
-strings(str(S)) --> [<], word(W), [>], { atomic_list_concat(W, ' ', S) }.
+word([W1 | W2]) --> [W1], word(W2), { atom(W1), W1 \= '"' }.
+strings(str(S)) --> ['"'], word(W), ['"'], { atomic_list_concat(W, ' ', S) }.
 
 comment(fyi(S)) --> [fyi], strings(S).
 

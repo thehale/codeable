@@ -40,7 +40,7 @@
 // Requirement 1c
 `word` := `identifier`
 `word` := `identifier` `word`
-`string` := < `word` >
+`string` := " `word` "
 
 // Requirement 2
 `assignment` := `identifier` stores `expression`

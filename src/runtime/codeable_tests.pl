@@ -20,7 +20,7 @@ test("show numeric parses correctly") :-
     ParseTree = prog(show_numeric(25)).
 
 test("show string parses correctly") :-
-    program(ParseTree, [show, <, hello, world, >], []),
+    program(ParseTree, [show, '"', hello, world, '"'], []),
     ParseTree = prog(show_string('hello world')).
 
 test("assignment parses correctly") :-
@@ -28,7 +28,7 @@ test("assignment parses correctly") :-
     ParseTree = assign(id(a), expr_term(term_factor(factor_numeric(-2)))).
 
 test("comments parse correctly") :-
-    comment(ParseTree, [fyi, <, this, is, a, comment, >], []),
+    comment(ParseTree, [fyi, '"', this, is, a, comment, '"'], []),
     ParseTree = fyi('this is a comment').
 
 test("exponentiation parses correctly") :-

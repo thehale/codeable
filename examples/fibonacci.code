@@ -1,10 +1,10 @@
-fyi < Rithvik Arun, Joseph Hale, Jacob Hreshchyshyn, Jacob Janes, Sai Nishanth Vaka >
-fyi <  >
-fyi < This software is released under the MIT License. >
-fyi < https://opensource.org/licenses/MIT >
+fyi "Rithvik Arun, Joseph Hale, Jacob Hreshchyshyn, Jacob Janes, Sai Nishanth Vaka"
+fyi "  "
+fyi "This software is released under the MIT License."
+fyi "https://opensource.org/licenses/MIT"
 
-fyi < fibonacci >
-fyi < example of if statements >
+fyi "fibonacci"
+fyi "example of if statements"
 
 n stores 2
 
@@ -14,11 +14,11 @@ if fib is_less_than 0
 
     iterator stores 1
 
-    fyi < store the first two values of the fibonacci sequence >
+    fyi "store the first two values of the fibonacci sequence"
     anteprev_n stores 0
     prev_n stores 1
 
-    fyi < compute fibonacci numbers until n is reached >
+    fyi "compute fibonacci numbers until n is reached"
     while iterator is_less_than n minus 1
         fib stores anteprev_n plus prev_n
         anteprev_n stores prev_n
@@ -28,7 +28,7 @@ if fib is_less_than 0
 
 otherwise
 
-    message stores < try a higher value of n for more fun >
+    message stores "try a higher value of n for more fun"
     show message
 
 move_on
