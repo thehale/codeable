@@ -48,3 +48,13 @@ textarea {
     border-radius: 15px;
     background-color: greenyellow;
 }
+
+#examples-label {
+    font-weight: normal;
+    font-size: medium;
+}
+
+#examples {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+}
