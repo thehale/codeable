@@ -8,9 +8,9 @@ fyi < example of if statements >
 
 n stores 2
 
-fib stores n minus 1 if n is_less_than 3 otherwise -1
+fib stores n minus 1 if n is less than 3 otherwise -1
 
-if fib is_less_than 0
+if fib is less than 0
 
     iterator stores 1
 
@@ -19,7 +19,7 @@ if fib is_less_than 0
     prev_n stores 1
 
     fyi < compute fibonacci numbers until n is reached >
-    while iterator is_less_than n minus 1
+    while iterator is less than n minus 1
         fib stores anteprev_n plus prev_n
         anteprev_n stores prev_n
         prev_n stores fib

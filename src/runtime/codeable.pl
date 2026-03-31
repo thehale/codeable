@@ -50,8 +50,8 @@ boolean(true) --> [true].
 boolean(false) --> [false].
 boolean(not(B)) --> [not], boolean(B).
 boolean(equals(E1, E2)) --> expr(E1), [equals], expr(E2).
-boolean(is_greater_than(E1, E2)) --> expr(E1), [is_greater_than], expr(E2).
-boolean(is_less_than(E1, E2)) --> expr(E1), [is_less_than], expr(E2).
+boolean(is_greater_than(E1, E2)) --> expr(E1), [is, greater, than], expr(E2).
+boolean(is_less_than(E1, E2)) --> expr(E1), [is, less, than], expr(E2).
 
 assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
 assignment(assign(I, E)) --> identifier(I), [stores], strings(E).

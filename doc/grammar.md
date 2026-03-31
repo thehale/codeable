@@ -23,8 +23,8 @@
 `boolean` := not `boolean`
 `boolean` := `expression` and `expression`
 `boolean` := `expression` or `expression`
-`boolean` := `expression` is_greater_than `expression`
-`boolean` := `expression` is_less_than `expression`
+`boolean` := `expression` is greater than `expression`
+`boolean` := `expression` is less than `expression`
 `boolean` := `expression` equals `expression`
 
 // Requirement 1b

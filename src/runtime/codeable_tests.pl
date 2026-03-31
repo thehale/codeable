@@ -35,6 +35,14 @@ test("exponentiation parses correctly") :-
     program(ParseTree, [a, stores, 2, raised-to, 3], []),
     ParseTree = prog(assign(id(a), expr_term(term_exponent(factor_numeric(2), factor_numeric(3))))).
 
+test("is less than parses correctly") :-
+    boolean(ParseTree, [1, is, less, than, 2], []),
+    ParseTree = is_less_than(expr_term(term_factor(factor_numeric(1))), expr_term(term_factor(factor_numeric(2)))).
+
+test("is greater than parses correctly") :-
+    boolean(ParseTree, [3, is, greater, than, 2], []),
+    ParseTree = is_greater_than(expr_term(term_factor(factor_numeric(3))), expr_term(term_factor(factor_numeric(2)))).
+
 test("for loop parses correctly") :-
     program(ParseTree, [for, i, from, 0, to, 10, by, 1, show, i, repeat], []),
     ParseTree = 
