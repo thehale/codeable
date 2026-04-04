@@ -35,7 +35,7 @@
 `expression` := `expression` plus `expression` 
 `expression` := `expression` minus `expression` 
 `expression` := `expression` times `expression` 
-`expression` := `expression` divided-by `expression` 
+`expression` := `expression` divided by `expression` 
 
 // Requirement 1c
 `word` := `identifier`
@@ -51,8 +51,8 @@
 `ternary` := `expression` if `boolean` otherwise `expression`
 
 // Requirement 3b
-`if_statement` := if `boolean` `command` move-on
-`if_statement` := if `boolean` `command` otherwise `command` move-on
+`if_statement` := if `boolean` `command` move on
+`if_statement` := if `boolean` `command` otherwise `command` move on
 
 // Requirement 4a
 `loop_for` := for `identifier` from `expression` to `expression` by `expression` `command` repeat

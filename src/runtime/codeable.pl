@@ -36,11 +36,11 @@ factor(factor_identifier(F)) --> identifier(F).
 factor(factor_expression(F)) --> ['('], expr(F), [')'].
 
 sub_term(term_factor(T)) --> factor(T).
-sub_term(term_exponent(F1, F2)) --> factor(F1), [raised_to], factor(F2).
+sub_term(term_exponent(F1, F2)) --> factor(F1), [raised, to], factor(F2).
 
 term(T) --> sub_term(T).
 term(term_times(T1, T2)) --> factor(T1), [times],  term(T2).
-term(term_divide(T1, T2)) -->  factor(T1), [divided_by], term(T2).
+term(term_divide(T1, T2)) -->  factor(T1), [divided, by], term(T2).
 
 expr(expr_term(E)) --> term(E).
 expr(expr_plus(E1, E2)) --> term(E1), [plus],  expr(E2).
@@ -57,8 +57,8 @@ assignment(assign(I, E)) --> identifier(I), [stores], expr(E).
 assignment(assign(I, E)) --> identifier(I), [stores], strings(E).
 assignment(assign(I, E)) --> identifier(I), [stores], selection_inline(E).
 
-selection(if(B, C, fyi(no_op))) --> [if], boolean(B), command(C), [move_on].
-selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command(C2), [move_on].
+selection(if(B, C, fyi(no_op))) --> [if], boolean(B), command(C), [move, on].
+selection(if(B, C1, C2)) --> [if], boolean(B), command(C1), [otherwise], command(C2), [move, on].
 selection_inline(ternary(B, T, F)) --> expr(T), [if], boolean(B), [otherwise], expr(F).
 
 loop(for(I, Start, Stop, Step, C)) --> [for], identifier(I), [from], expr(Start), [to], expr(Stop), [by], expr(Step), command(C), [repeat].
